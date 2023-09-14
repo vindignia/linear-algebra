@@ -24,7 +24,7 @@ def print_to_file(filename, my_tmp, dim):
 def main():
 
   if (len(sys.argv) > 1):
-    size = int(sys.argv[1])  # number of spins 1/2 in the ring
+    size = int(sys.argv[1])  # number of spins 1/2 in the array
   else:
     size = 4
 
@@ -79,8 +79,9 @@ def main():
   suffix = 'N'+  str(dim) + '.csv'
 
   print("\nMatrix elements on the common eigenvector basis written in the folder " + output_folder +"\n")
-
+  #
   # matrix elements on the common |H, S_z> basis
+  #
   tmp = compute_matrix_elements(H_op.matrix, common_eigenvector)
   print_to_file(output_folder + "H_comm_basis_" + suffix, tmp, dim)
 
