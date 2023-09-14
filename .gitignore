@@ -1,0 +1,6 @@
+*.icloud
+*iml
+#-- 2023
+*.ipynb_checkpoints/
+matrix_elements
+.pytest_cache/
