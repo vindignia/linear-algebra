@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class single_particle(object):
     def sigma_x(self, state, site):
         return state ^ (1 << site)
@@ -22,20 +23,14 @@ class hamiltonian(object):
         dim = 1 << n_spins
         self.matrix = np.zeros(shape=(dim, dim))
         sp = single_particle()
-        #	print 'size f the Hilbert space: %d' %(dim)
-        #	sys.stdout.flush()
-
         n_max = n_spins
         if openBC:
             n_max = n_spins - 1
 
-        # print("check interaction sites")
         for site in range(0, n_max):
 
             site_next = site + 1
             if (site_next == n_spins): site_next = 0
-
-            # print(site, site_next)
 
             for state in range(0, dim):
                 #		Exchange terms
@@ -61,6 +56,7 @@ class hamiltonian(object):
                 self.matrix[new_state, state] += mu * Hx
                 self.matrix[state, state] += mu * Hz * sigma_1
 
+
 class S_total_x(object):
     def __init__(self, n_spins=1):
         dim = 1 << n_spins
@@ -71,16 +67,18 @@ class S_total_x(object):
                 new_state = sp.sigma_x(state, site)
                 self.matrix[new_state, state] += 0.5
 
+
 class S_total_y(object):
     def __init__(self, n_spins=1):
         dim = 1 << n_spins
-        self.matrix = np.zeros(shape=(dim, dim)) + np.zeros(shape=(dim, dim))*1j
+        self.matrix = np.zeros(shape=(dim, dim)) + np.zeros(shape=(dim, dim)) * 1j
         sp = single_particle()
         for state in range(0, dim):
             for site in range(0, n_spins):
                 sigma_1 = sp.sigma_z(state, site)
                 new_state = sp.sigma_x(state, site)
-                self.matrix[new_state, state] += (0. + 0.5*sigma_1*1j)
+                self.matrix[new_state, state] += (0. + 0.5 * sigma_1 * 1j)
+
 
 class S_total_z(object):
     def __init__(self, n_spins=1):
@@ -92,7 +90,6 @@ class S_total_z(object):
                 self.matrix[state, state] += 0.5 * sp.sigma_z(state, site)
 
 
-
 class translation(object):
     def __init__(self, n_spins=1):
         sp = single_particle()
@@ -101,4 +98,3 @@ class translation(object):
         for state in range(0, dim):
             new_state = sp.site_shift(n_spins, state)
             self.matrix[new_state, state] = 1
-

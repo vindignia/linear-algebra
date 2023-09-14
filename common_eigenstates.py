@@ -3,13 +3,14 @@ import numpy as np
 from numpy import linalg as LA
 from mlxtend.math import vectorspace_orthonormalization
 
+
 def are_same(A, B):
     # Check if A and B are square and have the same dimension. If so, check if they are identical and returns a boolean
-    if(np.shape(A)[0]!= np.shape(A)[1]):
+    if (np.shape(A)[0] != np.shape(A)[1]):
         sys.exit('A is not a square matrix')
-    if(np.shape(B)[0]!= np.shape(B)[1]):
+    if (np.shape(B)[0] != np.shape(B)[1]):
         sys.exit('B is not a square matrix')
-    if(np.shape(A)[0]!= np.shape(B)[0]):
+    if (np.shape(A)[0] != np.shape(B)[0]):
         sys.exit('A and B have not the same size')
 
     # Convert the lists to NumPy arrays
@@ -19,13 +20,15 @@ def are_same(A, B):
     # Check if the arrays are equal element-wise
     return np.array_equal(A, B)
 
-def do_commute(A,B):
+
+def do_commute(A, B):
     # Check if the product of two square matrices commute
     C = np.dot(A, B)
     D = np.dot(B, A)
     return are_same(C, D)
 
-def order_eigenvalue_vectors(eigenvalue, eigenvector, asc = True):
+
+def order_eigenvalue_vectors(eigenvalue, eigenvector, asc=True):
     if not asc:
         idx = eigenvalue.argsort()[::-1]
     else:
@@ -36,8 +39,8 @@ def order_eigenvalue_vectors(eigenvalue, eigenvector, asc = True):
 
     return eigenvalue_ordered, eigenvector_ordered
 
-def eigen_dictionary(eigenvalue, eigenvector, asc = True):
 
+def eigen_dictionary(eigenvalue, eigenvector, asc=True):
     # order eigenvector and eigenvalues
     eigenvalue_tmp, eigenvector_tmp = order_eigenvalue_vectors(eigenvalue, eigenvector, asc)
 
@@ -60,12 +63,11 @@ def eigen_dictionary(eigenvalue, eigenvector, asc = True):
 
 
 def find_common_eigenstates(B, A_eigenvalue, A_eigenvector, A_eigenvalue_dict):
-
     common_eigenvector = np.zeros(np.shape(B))
     A_common_eigenvalue = np.zeros(shape=len(A_eigenvalue_dict))
     B_common_eigenvalue = np.zeros(shape=len(A_eigenvalue_dict))
 
-    ii = 0  # label of eigevectors associalted to pairs of common eigenvalues
+    ii = 0  # label of eigevectors associated to pairs of common eigenvalues
 
     for ieig_1 in range(0, len(A_eigenvalue)):
 
@@ -84,8 +86,8 @@ def find_common_eigenstates(B, A_eigenvalue, A_eigenvector, A_eigenvalue_dict):
             B_subset_eigvalue_not_norm, subset_common_eigvector_not_norm = LA.eigh(B_subset)
             # round and group
             B_subset_eigvalue, indices, subset_B_degeneracy = np.unique(np.round(B_subset_eigvalue_not_norm, 5),
-                                                                          return_counts=True,
-                                                                          return_index=True)
+                                                                        return_counts=True,
+                                                                        return_index=True)
         else:  # energy singlet
             B_subset_eigvalue, subset_B_degeneracy = np.round(B_subset, 5), 1
 
@@ -103,15 +105,15 @@ def find_common_eigenstates(B, A_eigenvalue, A_eigenvector, A_eigenvalue_dict):
                 for i in range(0, subset_B_degeneracy[ieig_2]):
                     jj += 1
 
-            elif (len(subset) > 1 and (subset_B_degeneracy[ieig_2]==1)):
+            elif (len(subset) > 1 and (subset_B_degeneracy[ieig_2] == 1)):
                 # take care of the non-deg M_eigenstates NOT energy singlet!!!
                 subset_common_eigvector[:, jj] = subset_common_eigvector_not_norm[:, jj]
                 B_common_eigenvalue[ii + jj] = B_subset_eigvalue[ieig_2]
                 jj += 1
 
-            else: #singlet
+            else:  # singlet
                 # In this case np assign a shape (1,1) to B_subset_eigvalue which has to be accessed to be considered a scalar
-                B_common_eigenvalue[ii] = B_subset_eigvalue[0,0]
+                B_common_eigenvalue[ii] = B_subset_eigvalue[0, 0]
 
         if len(subset) > 1:
             subset_common_tmp = np.matmul(subset_A_eigenvector, subset_common_eigvector)

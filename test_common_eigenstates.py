@@ -14,6 +14,7 @@ S_z_op = S_total_z(size)
 S_x_op = S_total_z(size)
 T_op = translation(size)
 
+
 def find_H_eigenvalues_eigenvectors(H_op_matrix):
     eigenvalue_tmp, eigenvector_tmp = LA.eigh(H_op_matrix, UPLO='U')
     return eigen_dictionary(eigenvalue_tmp, eigenvector_tmp)
@@ -28,7 +29,6 @@ def find_S_z_eigenvalues_eigenvectors(size):
 
 
 def test_consistency_eigenvalues_eigenvectors():
-
     H_op_eigenvalue, H_op_eigenvector, H_op_eigenvalue_dict = find_H_eigenvalues_eigenvectors(H_op.matrix)
 
     H_common_eigenvalue, S_x_common_eigenvalue, common_eigenvector = find_common_eigenstates(S_x_op.matrix,
