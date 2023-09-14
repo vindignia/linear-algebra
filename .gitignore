@@ -1,6 +1,7 @@
+.idea/
+__pycache__/
 *.icloud
 *iml
-#-- 2023
 *.ipynb_checkpoints/
-matrix_elements
+matrix_elements/
 .pytest_cache/
