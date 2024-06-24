@@ -42,7 +42,7 @@ jobs:
         run: |
           sed -i 's/np.float_/np.float64/g' /opt/hostedtoolcache/Python/3.12.4/x64/lib/python3.12/site-packages/mlxtend/math/linalg.py
 #          sed -i 's/np.float_/np.float64/g' [PATH_TO_FILE]linalg.py # for local installation
-      
+
       - name: Run unit tests with pytest
         run: |
           pytest test_operators.py -v
@@ -50,6 +50,13 @@ jobs:
 
       - name: Build package
         run: python -m build
+
+      - name: Upload package as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: built-package
+          path: dist/
+
 #      - name: Publish package
 #        uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
 #        with:
