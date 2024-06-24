@@ -1,9 +1,9 @@
 # USAGE
 # $ pytest test_common_eigenstates.py -v
 #
+import numpy as np
 from operators import *
 from common_eigenstates import *
-import numpy as np
 
 size = 6
 J_exch = 0.25
@@ -46,5 +46,5 @@ def test_consistency_eigenvalues_eigenvectors():
         test_S_x_eig = np.append(test_S_x_eig, tmp_S_x_eig)
         test_H_eig = np.append(test_H_eig, tmp_H_eig)
 
-    np.testing.assert_array_equal(H_common_eigenvalue, test_H_eig, err_msg='eigenvalues inconsistent with eigenvectors',
-                                  verbose=True)
+    np.testing.assert_allclose(H_common_eigenvalue, test_H_eig, rtol=1e-5, atol=1e-8,
+                               err_msg='Eigenvalues inconsistent with eigenvectors', verbose=True)

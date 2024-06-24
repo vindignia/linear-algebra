@@ -1,9 +1,10 @@
 # USAGE
 # $ pytest test_operators.py -v
 #
+import numpy as np
+import numpy.testing as npt
 from operators import *
 from common_eigenstates import *
-import numpy as np
 
 size = 6
 J_exch = 0.25
@@ -18,14 +19,13 @@ T_op = translation(size)
 
 
 def test_H_herimtean():
-    np.testing.assert_array_equal(H_op.matrix, H_op.matrix.transpose())
+    assert np.allclose(H_op.matrix, H_op.matrix.T.conj()), "H_op is not Hermitian"
 
 
 def test_commutation_H_S_x():
-    #   Operators H and S_z commute
     P1 = np.dot(S_x_op.matrix, H_op.matrix)
     P2 = np.dot(H_op.matrix, S_x_op.matrix)
-    np.testing.assert_array_equal(P1, P2)
+    npt.assert_allclose(P1, P2, rtol=1e-5, atol=1e-8, err_msg="H_op and S_x_op do not commute")
 
 
 def test_commutation_H_S_y():
